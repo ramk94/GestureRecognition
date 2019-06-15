@@ -1,5 +1,27 @@
+#Ram Bhattarai
+#Credit to Sparsha Saha
+#Ming Ma
+#Zhe Lu
+#ECE 544
+#Resize the image
+
+
+
+
 from PIL import Image
 
+#Change the actual filename
+#Change the actual foldername
+#Change the how many images you want to resize
+foldername = "peace_test/"
+filename =   "peace_"
+size     = 1000
+
+
+#Change the Your computer full path to your actual path of the computer
+path = "/Your Computer Full Path/"+str(foldername)+str(filename);
+
+#Function to resize the image
 def resizeImage(imageName):
     basewidth = 100
     img = Image.open(imageName)
@@ -8,12 +30,7 @@ def resizeImage(imageName):
     img = img.resize((basewidth,hsize), Image.ANTIALIAS)
     img.save(imageName)
 
-foldername = "thumbsup_test_resize/"
-filename =   "thumbsup_"
 
-path = "/Users/badribhattarai/opencvproj/gesture/datasets/"+str(foldername)+str(filename);
-
-for i in range(0, 100):
+for i in range(0, size):
     # Mention the directory in which you wanna resize the images followed by the image name
-	
     resizeImage(path + str(i) + '.png')
