@@ -1,3 +1,12 @@
+'''
+Ram Bhattarai
+Ming Ma
+Zhe Lu
+ECE 544 Gesture Recognition
+Image Generation
+Credit to Sparsha Saha
+'''
+
 # organize imports
 import cv2
 import os
@@ -7,6 +16,9 @@ import numpy as np
 # global variables
 bg = None
 
+
+#Do the calibration of the environment so that if there is any noise
+#Get it filtered
 def run_avg(image, aWeight):
     global bg
     # initialize the background
@@ -17,6 +29,8 @@ def run_avg(image, aWeight):
     # compute weighted average, accumulate it and update the background
     cv2.accumulateWeighted(image, bg, aWeight)
 
+
+#Give a segmented image with the background subtraction to avoid noisy background
 def segment(image, threshold=25):
     global bg
     # find the absolute difference between background and current frame
@@ -41,7 +55,8 @@ def segment(image, threshold=25):
         segmented = max(cnts, key=cv2.contourArea)
         return (thresholded, segmented)
 
-def main(name,file_format):
+#Main function where all the image captured is saved to a specific folder
+def main(name,file_format,num_of_images):
     # initialize weight for running average
     aWeight = 0.5
 
@@ -101,7 +116,7 @@ def main(name,file_format):
                 if start_recording:
 
                     # Mention the directory in which you wanna store the images followed by the image name
-                    path = '/Users/badribhattarai/opencvproj/gesture/datasets/'+str(name);
+                    path = '/Your Computer Full Path/'+str(name);
                     cv2.imwrite(os.path.join(path,str(file_format) + str(image_num) + '.png'), thresholded)
                     image_num += 1
                 cv2.imshow("Thesholded", thresholded)
@@ -119,7 +134,7 @@ def main(name,file_format):
         keypress = cv2.waitKey(1) & 0xFF
 
         # if the user pressed "q", then stop looping
-        if keypress == ord("q") or image_num > 100:
+        if keypress == ord("q") or image_num > num_of_images:
             # free up memory
             camera.release()
             cv2.destroyAllWindows()
@@ -127,11 +142,13 @@ def main(name,file_format):
         
         #To start recording, press 's' from the keyboard        
         if keypress == ord("s"):
+            print("Recording")
             start_recording = True
 
 
-#Give the folder name and file name to save image
-main('thumbsup_test_resize','thumbsup_')
+#Give the folder name and file name to save image and also the number of images
+#Program expects that these folder are already created
+main('peace_test','peace_',100)
 
 
 
